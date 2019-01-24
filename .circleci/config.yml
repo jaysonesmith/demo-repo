@@ -14,22 +14,16 @@ commands:
   rspec:
     description: "Run RSpec"
     steps:
-      - run: mkdir -p ~/test-results/rspec/
       - run:
           command: bundle exec rspec --format progress --format RspecJunitFormatter -o ~/test-results/rspec/rspec.xml
           when: always
-      - store_test_results:
-          path: ~/test-results/rspec/
 
   cucumber:
     description: "Run cucumber"
     steps:
-      - run: mkdir -p ~/test-results/cucumber/
       - run: 
           command: bundle exec cucumber -f pretty -f junit -o ~/test-results/cucumber/
           when: always
-      - store_test_results:
-          path: ~/test-results/cucumber/
 
 jobs:
   test:
