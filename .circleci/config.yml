@@ -1,0 +1,42 @@
+version: 2.1
+
+executors:
+  default:
+    docker:
+      - image: circleci/ruby:2.5
+
+commands:
+  install_gems:
+    description: "install dependencies"
+    steps:
+      - run: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
+
+  rspec:
+    description: "Run RSpec"
+    steps:
+      - run: mkdir -p ~/test-results/rspec/
+      - run: bundle exec rspec --format progress --format RspecJunitFormatter -o ~/test-results/rspec/rspec.xml
+      - store_test_results:
+          path: ~/test-results/rspec/
+
+  cucumber:
+    description: "Run cucumber"
+    steps:
+      - run: mkdir -p ~/test-results/cucumber/
+      - run: bundle exec cucumber -f pretty -f junit -o ~/test-results/cucumber/
+      - store_test_results:
+          path: ~/test-results/cucumber/
+
+jobs:
+  test:
+    executor: default
+    steps:
+      - checkout
+      - install_gems
+      - rspec
+      - cucumber
+
+workflows:
+  pr:
+    jobs:
+      - test
