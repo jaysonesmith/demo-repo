@@ -24,7 +24,7 @@ commands:
     description: "Run cucumber"
     steps:
       - run: 
-          command: bundle exec cucumber -f pretty -f junit -o ~/test-results/cucumber/
+          command: bundle exec cucumber -f pretty -f junit -o ~/test-results/cucumber/cucumber.xml
           when: always
       - store_test_results:
           path: ~/test-results/cucumber/
