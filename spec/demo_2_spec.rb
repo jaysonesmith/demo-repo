@@ -5,7 +5,7 @@ describe 'demo 2' do
     r = Random.new
 
     it 'sometimes passes' do
-      expect(r.rand(2.0)).to be < 0.7
+      expect(r.rand(2.0)).to be < 0.95
     end
   end
 end
